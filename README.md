@@ -2,7 +2,7 @@
 
 > **Organize Your Health Records. Access Them with Ease.**  
 > *Medical Records & Health Document Management System*  
-> **Subject:** Cloud Computing | **Project Type:** Micro Project
+
 
 ---
 
