@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediCloud — Health Records Management Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-icon">M</div>
+        <div class="brand-info">
+          <h1>
+            MediCloud
+            <span class="brand-glow-pill">
+              <span class="glow-dot"></span>
+              Live
+            </span>
+          </h1>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="index.html" class="nav-link active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          Dashboard
+        </a>
+        <a href="records.html" class="nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          Medical Records
+        </a>
+        <a href="visits.html" class="nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          Doctor Visits
+        </a>
+        <a href="prescriptions.html" class="nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+          Prescriptions
+        </a>
+        <a href="documents.html" class="nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+          Health Documents
+        </a>
+        <a href="profile.html" class="nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          Health Profile
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <span class="cloud-badge">Cloud-Ready API</span>
+        <span>v1.0.0</span>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="main-content">
+      <!-- Top Bar -->
+      <header class="top-bar">
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle Navigation">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+
+        <div class="search-box-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="global-search-input" class="search-input" placeholder="Search records, doctors, medicine, docs..." autocomplete="off">
+          <div id="search-results-dropdown" class="search-results-dropdown"></div>
+        </div>
+
+        <div class="top-bar-actions">
+          <button class="btn btn-secondary btn-sm" onclick="exportHealthReportPDF()" title="Export complete health records as PDF">
+            📄 Export PDF Report
+          </button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleTheme()" title="Toggle Dark/Light Mode" style="padding: 7px 10px;">
+            🌓
+          </button>
+          <a href="profile.html" class="user-mini-card">
+            <div class="user-avatar">--</div>
+            <span class="user-name">Loading...</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- Dashboard Body -->
+      <section class="page-body">
+        <div class="page-header">
+          <div class="page-title-group">
+            <h2>Health Overview</h2>
+            <p>Organize Your Health Records. Access Them with Ease. <span id="live-indicator" style="display: inline-block; margin-left: 8px; font-size: 0.74rem; background: var(--status-green-light); color: var(--status-green); padding: 2px 8px; border-radius: var(--radius-full); font-weight: 600;">● Live Server Data</span></p>
+          </div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="btn btn-secondary btn-sm" onclick="handleClearAllData()" title="Empty all arrays to test 0 state">
+              Clear All Data (0)
+            </button>
+            <button class="btn btn-secondary btn-sm" onclick="handleResetSampleData()" title="Restore sample medical data">
+              Restore Sample Data
+            </button>
+            <a href="records.html" class="btn btn-primary btn-sm">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              Add Record
+            </a>
+          </div>
+        </div>
+
+        <!-- Real-Time Patient Vitals Banner -->
+        <div id="vitals-banner-container"></div>
+
+        <!-- Dynamic Statistics Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-info">
+              <p>Medical Records</p>
+              <h3 id="stat-records">-</h3>
+            </div>
+            <div class="stat-icon blue">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-info">
+              <p>Doctor Visits</p>
+              <h3 id="stat-visits">-</h3>
+            </div>
+            <div class="stat-icon teal">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-info">
+              <p>Prescriptions</p>
+              <h3 id="stat-prescriptions">-</h3>
+            </div>
+            <div class="stat-icon green">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-info">
+              <p>Health Documents</p>
+              <h3 id="stat-documents">-</h3>
+            </div>
+            <div class="stat-icon amber">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 Column Overview Section -->
+        <div style="display: grid; grid-template-columns: 1.3fr 1fr; gap: 24px;">
+          <!-- Left Column: Recent Activity Feed -->
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+              <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--brand-navy);">Recent Medical Activity</h3>
+              <a href="records.html" style="font-size: 0.82rem; color: var(--medical-blue); font-weight: 600;">View All &rarr;</a>
+            </div>
+            <div id="recent-activity-container" class="activity-list">
+              <p style="padding: 12px; color: var(--text-muted);">Loading activity...</p>
+            </div>
+          </div>
+
+          <!-- Right Column: Upcoming Follow-ups & Active Rx -->
+          <div>
+            <div style="margin-bottom: 24px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--brand-navy);">Upcoming Follow-ups</h3>
+                <a href="visits.html" style="font-size: 0.82rem; color: var(--medical-blue); font-weight: 600;">Visits &rarr;</a>
+              </div>
+              <div id="upcoming-visits-container">
+                <p style="padding: 12px; color: var(--text-muted);">Loading follow-ups...</p>
+              </div>
+            </div>
+
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--brand-navy);">Active Prescriptions</h3>
+                <a href="prescriptions.html" style="font-size: 0.82rem; color: var(--medical-blue); font-weight: 600;">View Rx &rarr;</a>
+              </div>
+              <div id="active-prescriptions-container">
+                <p style="padding: 12px; color: var(--text-muted);">Loading prescriptions...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

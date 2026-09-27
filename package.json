@@ -1,0 +1,14 @@
+{
+  "name": "medicloud",
+  "version": "1.0.0",
+  "description": "Medical Records & Health Document Management System - Cloud-Ready Micro Project",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node tests/test-suite.js",
+    "test:cases": "node tests/verify-7-insertions.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
